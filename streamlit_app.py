@@ -5,10 +5,28 @@ from PIL import Image
 from transformers import GPT2Tokenizer, AutoModelForCausalLM
 import torch
 import numpy as np
+import gdown
+import os
+import zipfile
+
+if not os.path.exists("src/gpt2-waste-finetuned"):
+    # Use the shareable link to get the file ID (e.g., https://drive.google.com/file/d/FILE_ID/view?usp=sharing)
+    url = "https://drive.google.com/file/d/1wJ85PYX5UlXO5SK4cPAprTTfwGkpfGii/edit"  # Replace with your actual file ID
+    output = "model.zip"  # Temporary file to store the zip
+
+    # Download the file from Google Drive
+    gdown.download(url, output, quiet=False)
+
+    # Unzip the downloaded file into the src directory
+    with zipfile.ZipFile(output, 'r') as zip_ref:
+        zip_ref.extractall("src/")
+
+    # Optionally delete the zip file after extracting
+    os.remove(output)
 
 # Load tokenizer and model
-generate_model = AutoModelForCausalLM.from_pretrained("./gpt2-waste-finetuned")
-tokenizer = GPT2Tokenizer.from_pretrained("./gpt2-waste-finetuned")
+generate_model = AutoModelForCausalLM.from_pretrained("src/gpt2-waste-finetuned")
+tokenizer = GPT2Tokenizer.from_pretrained("src/gpt2-waste-finetuned")
 
 # Generate a suggestion based on material
 def generate_suggestion(material):
