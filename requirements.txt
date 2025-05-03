@@ -1,0 +1,7 @@
+streamlit
+google-generativeai
+tensorflow
+pillow
+transformers
+numpy
+torch
